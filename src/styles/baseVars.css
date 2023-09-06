@@ -1,0 +1,11 @@
+:root {
+  /* theme */
+
+  --base-theme-background-color: #0d47a1;
+  --base-theme-color: white;
+
+  /* popup */
+
+  --popup-btn-color: white;
+  --popup-btn-background-color: #322a2a;
+}
