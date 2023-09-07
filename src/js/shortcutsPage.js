@@ -1,4 +1,4 @@
-import { addPendingRequest } from './pendingRequest';
+import { addPendingRequest } from '@ahstream/hx-lib';
 
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
