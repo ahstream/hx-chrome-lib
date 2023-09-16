@@ -1,4 +1,4 @@
-import { addPendingRequest } from '@ahstream/hx-lib';
+import { addPendingRequest, createHashArgs, millisecondsAhead, sleep, minutesBetween } from '@ahstream/hx-lib';
 
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
@@ -22,6 +22,7 @@ export async function mountShortcutsPage(approvedUrls, data) {
   for (let item of data) {
     if (cmd === item.cmd) {
       console.info('Run cmd:', cmd);
+      await waitForDelay();
       return item.callback();
     }
   }
@@ -40,8 +41,44 @@ export async function mountShortcutsPage(approvedUrls, data) {
   }
 }
 
+let delayUntil = null;
+
+async function waitForDelay() {
+  if (!window?.location?.hash) {
+    return;
+  }
+  const hashArgs = createHashArgs(window.location.hash);
+  console.log(hashArgs);
+  const delaySecs = hashArgs.hashArgs.delaySecs?.length ? Number(hashArgs.hashArgs.delaySecs[0]) : 0;
+  if (!delaySecs) {
+    return;
+  }
+  const runAt = new Date(millisecondsAhead(delaySecs * 1000, new Date()));
+  delayUntil = runAt;
+
+  const span = document.createElement('span');
+  span.id = 'delay-msg';
+  span.style.fontSize = '2.8em';
+  span.style.textAlign = 'center';
+  span.style.width = '100%';
+  span.style.display = 'block';
+  span.style.paddingTop = '20%';
+  document.body.style.backgroundColor = 'orange';
+  document.body.appendChild(span);
+  updateDelayMsg();
+  await sleep(delaySecs);
+}
+
+function updateDelayMsg() {
+  const m = minutesBetween(new Date(), delayUntil);
+  const runAtStr = delayUntil.toLocaleTimeString();
+  document.getElementById('delay-msg').innerText = `Delay run of shortcut ${m} minutes until ${runAtStr}`;
+  setTimeout(updateDelayMsg, 60 * 1000);
+}
+
 function isApprovedUrl(url, approvedUrls) {
-  if (typeof approvedUrls !== 'object') {
+  console.info('isApprovedUrl; url, approvedUrls:', url, approvedUrls);
+  if (!Array.isArray(approvedUrls)) {
     // No list of URLS -> all urls are approved!
     return true;
   }

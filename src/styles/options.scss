@@ -13,7 +13,7 @@ body.options {
   .col label,
   .row label {
     font-weight: 600;
-    padding: 0 10px 8px 0;
+    padding: 0 10px 15px 0;
     margin-bottom: 2px;
   }
 
@@ -62,12 +62,19 @@ body.options {
     font-weight: bold;
   }
 
-  img.info {
-    width: 20px;
+  a.info {
+    margin-left: 10px;
+    svg {
+      height: 18px;
+    }
   }
 
   table tr td {
     border: none;
+  }
+
+  table {
+    margin: 0 !important;
   }
 
   tr {

@@ -58,6 +58,9 @@ export function defaultMessageHandler(request, sender) {
     case 'closeWindow':
       closeWindow();
       break;
+    case 'focusTab':
+      focusTab(request.id);
+      break;
     case 'focusMyTab':
       focusMyTab(sender);
       break;
@@ -160,6 +163,10 @@ function closeMySelf(sender) {
 
 function focusMyTab(sender) {
   chrome.tabs.update(sender.tab.id, { highlighted: true });
+}
+
+function focusTab(id) {
+  chrome.tabs.update(id, { highlighted: true });
 }
 
 function unfocusMyTab(sender) {
