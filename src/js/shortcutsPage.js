@@ -66,7 +66,7 @@ async function waitForDelay() {
   document.body.style.backgroundColor = 'orange';
   document.body.appendChild(span);
   updateDelayMsg();
-  await sleep(delaySecs);
+  await sleep(delaySecs * 1000);
 }
 
 function updateDelayMsg() {
