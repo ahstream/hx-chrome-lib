@@ -267,7 +267,6 @@ function createProperty(name, val, text, textAfter = null, infoText = null, minL
   const typedLength = typeof val === 'number' ? 8 : length;
   const labelAfter = textAfter ? `<label class="labelAfter">${textAfter}</label>` : ``;
   return `<div class="row">
-    <label>${labelText}:</label>
     <label for="${name}" title='${infoText}'>${labelText}: ${infoHTML} </label>
     <input type="text" id="${name}" placeholder="" size="${typedLength}" value='${valText}' />
     ${labelAfter}
