@@ -94,6 +94,11 @@ function addOptionsArr(optionsArr) {
       continue;
     }
 
+    if (key === 'box') {
+      html = html + '<div class="box">' + addOptionsArr(option[1]) + '</div>';
+      continue;
+    }
+
     if (key === 'subheader') {
       html = html + createSubheader(option[1]);
       continue;

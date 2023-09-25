@@ -1,13 +1,18 @@
 @import 'basePageSimple.css';
 
-.hx-container {
-  margin: 0px;
-}
-
 body {
   margin: 5px 15px;
   font-size: 1.05rem;
   line-height: 1.1;
+}
+
+.hx-container {
+  margin: 0px;
+}
+
+.hx-page-title-with-statusbar {
+  margin-top: 50px;
+  margin-bottom: 25px;
 }
 
 img,
