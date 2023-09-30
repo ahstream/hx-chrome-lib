@@ -1,4 +1,4 @@
-import { addPendingRequest, createHashArgs, millisecondsAhead, sleep, minutesBetween } from '@ahstream/hx-lib';
+import { addPendingRequest, createHashArgs, millisecondsAhead, sleep, minutesBetween, getStorageData } from '@ahstream/hx-lib';
 
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
@@ -35,7 +35,10 @@ export async function mountShortcutsPage(approvedUrls, data) {
   if (isApprovedUrl(url, approvedUrls)) {
     console.info('Dispatch pending url:', url);
     await addPendingRequest(url, { action: 'shortcut' });
-    window.location.href = url;
+    // window.location.href = url;
+    window.open(url);
+    const storage = await getStorageData();
+    console.log('storage', storage);
   } else {
     console.warn('Unapproved url:', url);
   }
