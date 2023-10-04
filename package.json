@@ -1,8 +1,7 @@
 {
-  "name": "@ahstream/hx-chrome-lib",
+  "name": "hx-chrome-lib",
   "version": "1.0.0",
   "description": "Hx Chrome Library Functions",
-  "author": "hstream@gmail.com",
   "license": "UNLICENSED",
   "main": "dist/index.js",
   "browserslist": "> 0.25%, not dead",
@@ -43,7 +42,7 @@
     "webpack-merge": "^5.9.0"
   },
   "dependencies": {
-    "@ahstream/hx-lib": "file:../hx-lib",
+    "hx-lib": "file:../hx-lib",
     "@babel/runtime": "^7.22.6"
   }
 }

@@ -1,6 +1,6 @@
 import '../styles/extension.css';
 
-import { getStorageItems, setStorageData, createHashArgs, createLogger } from '@ahstream/hx-lib';
+import { getStorageItems, setStorageData, createHashArgs, createLogger } from 'hx-lib';
 
 const debug = createLogger();
 

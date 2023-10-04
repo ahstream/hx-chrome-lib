@@ -1,5 +1,5 @@
 import '../styles/extension.css';
-import { getStorageData, dynamicSortMultiple, round } from '@ahstream/hx-lib';
+import { getStorageData, dynamicSortMultiple, round } from 'hx-lib';
 
 let storage = null;
 

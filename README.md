@@ -15,7 +15,7 @@ npm run build:publish
 ## Consume NPM package
 
 ```
-npm add --save @ahstream/hx-statusbar
+npm add --save hx-chrome-lib
 
-npm update --save @ahstream/hx-statusbar
+npm update --save hx-chrome-lib
 ```
