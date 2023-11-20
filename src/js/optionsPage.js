@@ -243,10 +243,28 @@ function createProperty(name, val, text, textAfter = null, infoText = null, minL
 
   const infoHTML = getInfoHTML(infoText);
 
+  /*
+  if (val === null) {
+    const valText = '';
+    const valLength = 8;
+    const length = valLength > minLength ? valLength : minLength;
+    const typedLength = typeof val === 'number' ? 8 : length;
+    const labelAfter = textAfter ? `<label class="labelAfter">${textAfter}</label>` : ``;
+    return `<div class="row">
+      <label for="${name}" title='${infoText}'>${labelText}: ${infoHTML} </label>
+      <input type="text" id="${name}" placeholder="" size="${typedLength}" value='${valText}' />
+      ${labelAfter}
+    </div>`;
+  }
+  */
+
   if (typeof val === 'object') {
-    if (typeof val.length === 'undefined') {
+    if (typeof val?.length === 'undefined') {
+      // only array objects are supported!
       debug.info('Skip invalid option:', name, val, text);
-      return '';
+      return `<div class="col" style="color:red">
+        Error: Corrupt option ${name}, ${JSON.stringify(val)}
+      </div>`;
     }
     let length = val.length > DEFAULT_TEXTAREA_ROWS ? DEFAULT_TEXTAREA_ROWS : Math.max(3, val.length);
     if (length === val.length) {
