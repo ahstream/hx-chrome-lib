@@ -6,7 +6,7 @@ export function defaultMessageHandler(request, sender) {
     case 'broadcast':
       chrome.tabs.query({}, (tabs) =>
         tabs.forEach((tab) => {
-          console.log('tab', tab);
+          //console.log('tab', tab);
           chrome.tabs.sendMessage(tab.id, { ...request.request });
         })
       );
@@ -73,7 +73,7 @@ export function defaultMessageHandler(request, sender) {
       openOptionsPage();
       break;
     default:
-      console.log('No hit in default messageHandler!');
+      //console.log('No hit in default messageHandler!');
       return false;
   }
   // If getting here, we have handled it!
@@ -92,38 +92,38 @@ export async function tabExists(tabId) {
 }
 
 export async function removeTab(tabId) {
-  console.log('removeTab, tabId:', tabId);
+  //console.log('removeTab, tabId:', tabId);
   try {
     if (!(await tabExists(tabId))) {
-      console.log('Skip already closed tab:', tabId);
+      //console.log('Skip already closed tab:', tabId);
       return;
     }
     const tab = await chrome.tabs.get(parseInt(tabId));
     if (tab) {
-      console.log('remove tab...', tab);
-      chrome.tabs.remove(tabId, () => console.log(`close tab ${tabId}`));
+      //console.log('remove tab...', tab);
+      chrome.tabs.remove(tabId, () => console.log(`Close tab:`, tab));
     } else {
-      console.log(`skip close tab ${tabId}`);
+      //console.log(`skip close tab ${tabId}`);
     }
   } catch (e) {
-    console.log('removeTab error:', tabId, e.message);
+    console.error('removeTab error:', tabId, e.message);
   }
 }
 
 export async function getTabsToRight(sender) {
-  console.log('getTabsToRight');
+  //console.log('getTabsToRight');
   chrome.tabs.query({}, (tabs) => {
-    console.log('tabs:', tabs);
+    //console.log('tabs:', tabs);
     const tabsResult = [];
     for (let tab of tabs) {
       if (tab.index > sender.tab.index) {
-        console.log('tab is RIGHT:', tab);
+        //console.log('tab is RIGHT:', tab);
         tabsResult.push(tab);
       } else {
-        console.log('tab is left:', tab);
+        //console.log('tab is left:', tab);
       }
     }
-    console.log('tabsResult:', tabsResult);
+    //console.log('tabsResult:', tabsResult);
     return tabsResult;
   });
 }
@@ -137,7 +137,7 @@ function openInSameTab(request) {
 }
 
 function openInSameishTab(request, sender) {
-  console.log('sender.tab', sender.tab);
+  //console.log('sender.tab', sender.tab);
   if (sender.tab.url.startsWith('http')) {
     chrome.tabs.update(undefined, { url: request.url });
   } else {
@@ -158,7 +158,7 @@ function closeNewerNormalTabs(sender) {
 }
 
 function closeMySelf(sender) {
-  chrome.tabs.remove(sender.tab.id, () => console.log('close tab'));
+  chrome.tabs.remove(sender.tab.id, () => console.log('Close tab: ', sender.tab));
 }
 
 function focusMyTab(sender) {
@@ -178,16 +178,15 @@ function unfocusMyTabId(tabId) {
 }
 
 function openOptionsPage() {
-  console.log('openOptionsPage');
   chrome.runtime.openOptionsPage();
 }
 
 function closeOtherTabsGeneric(myTab, onlyNewer = false, onlyNormal = true, exceptionTabIds = []) {
-  console.log('closeOtherTabs; myTab, onlyNewer, onlyNormal, exceptionTabIds', myTab, onlyNewer, onlyNormal, exceptionTabIds);
+  //console.log('closeOtherTabs; myTab, onlyNewer, onlyNormal, exceptionTabIds', myTab, onlyNewer, onlyNormal, exceptionTabIds);
   chrome.tabs.query({}, (tabs) => {
-    console.log('tabs', tabs);
+    //console.log('tabs', tabs);
     tabs.forEach((tab) => {
-      console.log('tab', tab);
+      //console.log('tab', tab);
       let shouldClose = false;
       if (onlyNewer) {
         shouldClose = tab.id > myTab.id && (onlyNormal ? tab.url.startsWith('http') : true);
@@ -197,27 +196,27 @@ function closeOtherTabsGeneric(myTab, onlyNewer = false, onlyNormal = true, exce
       if (exceptionTabIds.includes(tab.id)) {
         shouldClose = false;
       }
-      console.log('shouldClose:', shouldClose);
+      //console.log('shouldClose:', shouldClose);
       if (shouldClose) {
-        console.log('Close this tab:', tab);
-        chrome.tabs.remove(tab.id, () => console.log('close tab'));
+        //console.log('Close this tab:', tab);
+        chrome.tabs.remove(tab.id, () => console.log('Close tab: ', tab));
       }
     });
   });
 }
 
 function closeMyOpenedTabs(myTabId) {
-  console.log('closeMyOpenedTabs; myTabId:', myTabId);
+  //console.log('closeMyOpenedTabs; myTabId:', myTabId);
   chrome.tabs.query({}, (tabs) => {
-    console.log('closeMyOpenedTabs tabs', tabs);
+    //console.log('closeMyOpenedTabs tabs', tabs);
     tabs.forEach((tab) => {
-      console.log('tab', tab);
+      //console.log('tab', tab);
       const shouldClose = tab.openerTabId && tab.openerTabId === myTabId;
-      console.log('shouldClose:', shouldClose);
+      //console.log('shouldClose:', shouldClose);
       if (shouldClose) {
-        console.log('Close this tab:', tab);
+        //console.log('Close this tab:', tab);
         if (tab) {
-          chrome.tabs.remove(tab.id, () => console.log('close tab'));
+          chrome.tabs.remove(tab.id, () => console.log('Close tab:', tab));
         }
       }
     });
@@ -229,11 +228,11 @@ function closeTabsButOne(senderTabId, url) {
   chrome.tabs.update(senderTabId, { url: butOneTabUrl });
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
-      console.log('tab', tab);
+      //console.log('tab', tab);
       if (senderTabId === tab.id) {
         return;
       }
-      chrome.tabs.remove(tab.id, () => console.log(`Close tab: ${tab.url}`));
+      chrome.tabs.remove(tab.id, () => console.log(`Close tab:`, tab));
     });
   });
   return true;
@@ -248,7 +247,7 @@ function closeTabsButOneMinimizeWindow(senderTabId, url) {
 function closeWindow() {
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
-      chrome.tabs.remove(tab.id, () => console.log(`Close tab: ${tab.url}`));
+      chrome.tabs.remove(tab.id, () => console.log(`Close tab:`, tab));
     });
   });
   return true;
@@ -256,7 +255,7 @@ function closeWindow() {
 
 function minimizeCurrentWindow() {
   chrome.windows.getCurrent((win) => {
-    console.log(win);
+    //console.log(win);
     chrome.windows.update(win.id, { state: 'minimized' });
   });
 }

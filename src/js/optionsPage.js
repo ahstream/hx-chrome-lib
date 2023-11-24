@@ -23,11 +23,11 @@ let storage;
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
 export async function initOptionsPage() {
-  console.log('initPopupPage');
+  //console.log('initPopupPage');
 }
 
 export async function mountOptionsPage(data) {
-  console.log('mountOptionsPage:', data);
+  //console.log('mountOptionsPage:', data);
 
   storage = await getStorageItems(['options']);
   debug.info('storage', storage);

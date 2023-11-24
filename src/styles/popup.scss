@@ -17,10 +17,10 @@ body.popup {
 
   button {
     border-radius: 0px;
-    margin: 0;
-    border-bottom: 1px solid white;
-    border: none;
-    color: black;
+    margin: 1px;
+    //border-bottom: 1px solid white;
+    //border: none;
+    //color: black;
   }
 
   hr {
@@ -39,12 +39,11 @@ body.popup {
   input[type='reset'],
   input[type='button'],
   label[type='button'] {
-    padding: 6px;
+    //padding: 6px;
     color: var(--popup-btn-color);
-    background-color: var(--popup-btn-background-color);
-    font-size: 14px;
-    padding: 10px;
-    font-size: 14px;
+    //background-color: var(--popup-btn-background-color);
+    padding: 8px;
+    font-size: 16px;
   }
 
   button:focus,
@@ -61,7 +60,7 @@ body.popup {
   label[type='button']:hover {
     filter: unset;
     color: var(--base-theme-color);
-    background-color: var(--base-theme-background-color);
+    background-color: #b40909;
     cursor: pointer;
   }
 }

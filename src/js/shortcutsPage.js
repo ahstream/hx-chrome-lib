@@ -3,20 +3,21 @@ import { addPendingRequest, createHashArgs, millisecondsAhead, sleep, minutesBet
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
 export function initShortcutsPage() {
-  console.log('initShortcutsPage');
+  //console.log('initShortcutsPage');
 }
 
 export async function mountShortcutsPage(approvedUrls, data) {
-  console.log('mountShortcutsPage:', approvedUrls, data);
+  //console.log('mountShortcutsPage:', approvedUrls, data);
 
   if (!data) {
     return;
   }
 
   const params = new URL(window.location.href).searchParams;
-  console.info('params:', params);
+  //console.info('params:', params);
   const cmd = params.get('cmd') || null;
   const url = params.get('url') || null;
+
   console.info('Run shortcut:', cmd, url, window?.location?.href);
 
   for (let item of data) {
@@ -33,14 +34,9 @@ export async function mountShortcutsPage(approvedUrls, data) {
   }
 
   if (isApprovedUrl(url, approvedUrls)) {
-    console.info('Dispatch pending url:', url);
+    console.info('Open pending url:', url);
     await addPendingRequest(url, { action: 'shortcut' });
     window.location.href = url;
-    /*
-    window.open(url);
-    const storage = await getStorageData();
-    console.log('storage', storage);
-    */
   } else {
     console.warn('Unapproved url:', url);
   }
@@ -53,7 +49,7 @@ async function waitForDelay() {
     return;
   }
   const hashArgs = createHashArgs(window.location.hash);
-  console.log(hashArgs);
+  //console.log(hashArgs);
   const delaySecs = hashArgs.hashArgs.delaySecs?.length ? Number(hashArgs.hashArgs.delaySecs[0]) : 0;
   if (!delaySecs) {
     return;
@@ -82,7 +78,7 @@ function updateDelayMsg() {
 }
 
 function isApprovedUrl(url, approvedUrls) {
-  console.info('isApprovedUrl; url, approvedUrls:', url, approvedUrls);
+  //console.info('isApprovedUrl; url, approvedUrls:', url, approvedUrls);
   if (!Array.isArray(approvedUrls)) {
     // No list of URLS -> all urls are approved!
     return true;
@@ -92,7 +88,7 @@ function isApprovedUrl(url, approvedUrls) {
     return false;
   }
   for (let re of approvedUrls) {
-    console.log('url.match(re):', url.match(re), re);
+    //console.log('url.match(re):', url.match(re), re);
     if (url.match(re)) {
       return true;
     }

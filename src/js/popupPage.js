@@ -3,7 +3,7 @@ import '../styles/extension.css';
 // EXPORTED FUNCTIONS ---------------------------------------------------------------
 
 export function initPopupPage() {
-  console.log('initPopupPage');
+  //console.log('initPopupPage');
 
   if (document.getElementById('hx-help')) {
     document.getElementById('hx-help').addEventListener('click', () => {
@@ -20,7 +20,7 @@ export function initPopupPage() {
 
 // data: [ {id: 'hx-sample', callback: () => alert('foo')}];
 export function mountPopupPage(data) {
-  console.log('mountPopupPage:', data);
+  //console.log('mountPopupPage:', data);
   if (!data) {
     return;
   }
