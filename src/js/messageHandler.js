@@ -58,8 +58,14 @@ export function defaultMessageHandler(request, sender) {
     case 'closeWindow':
       closeWindow();
       break;
+    case 'focusWindow':
+      focusWindow(request.id || sender?.tab?.windowId);
+      break;
+    case 'unfocusWindow':
+      unfocusWindow(request.id || sender?.tab?.windowId);
+      break;
     case 'focusTab':
-      focusTab(request.id);
+      focusTab(request.id || sender?.tab?.id);
       break;
     case 'focusMyTab':
       focusMyTab(sender);
@@ -161,12 +167,12 @@ function closeMySelf(sender) {
   chrome.tabs.remove(sender.tab.id, () => console.log('Close tab: ', sender.tab));
 }
 
-function focusMyTab(sender) {
-  chrome.tabs.update(sender.tab.id, { highlighted: true });
-}
-
 function focusTab(id) {
   chrome.tabs.update(id, { highlighted: true });
+}
+
+function focusMyTab(sender) {
+  chrome.tabs.update(sender.tab.id, { highlighted: true });
 }
 
 function unfocusMyTab(sender) {
@@ -257,5 +263,25 @@ function minimizeCurrentWindow() {
   chrome.windows.getCurrent((win) => {
     //console.log(win);
     chrome.windows.update(win.id, { state: 'minimized' });
+  });
+}
+
+export function focusWindow(id = null) {
+  if (id) {
+    chrome.windows.update(id, { focused: true });
+    return;
+  }
+  chrome.windows.getCurrent((win) => {
+    chrome.windows.update(win.id, { focused: true });
+  });
+}
+
+export function unfocusWindow(id = null) {
+  if (id) {
+    chrome.windows.update(id, { focused: false });
+    return;
+  }
+  chrome.windows.getCurrent((win) => {
+    chrome.windows.update(win.id, { focused: false });
   });
 }
